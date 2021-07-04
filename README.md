@@ -10,4 +10,10 @@
 
 
 
+<ul>
+  <li>add-migration AddBookToDb - Generates migration scripts to update DB with model changes</li>
+  <li>update-database - Executes the migration scripts on the DB</li>
+  </ul>
+
+
 
