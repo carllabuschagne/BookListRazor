@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BookListRazor.Pages.BookList
 {
-	public class CreateModel : PageModel
+	public class EditModel : PageModel
 	{
 
 		private readonly ApplicationDbContext _db;
 
-		public CreateModel(ApplicationDbContext db)
+		public EditModel(ApplicationDbContext db)
 		{
 			_db = db;
 		}
@@ -21,31 +21,36 @@ namespace BookListRazor.Pages.BookList
 		[BindProperty]
 		public Book Book { get; set; }
 
-
-		public void OnGet()
+		//async Task is required for await for the OnGet Handler.
+		public async Task OnGet(int id)
 		{
+			//Load Book object with books from DB
+			Book = await _db.Book.FindAsync(id);
+
 		}
 
-		//Book Object Not Required if BindProperty is set above.
-		//public async Task<IActionResult> OnPost(Book bookObj) { }
 
 		public async Task<IActionResult> OnPost()
 		{
+
 			if (ModelState.IsValid)
 			{
-				//Add Book object to Queue.
-				await _db.Book.AddAsync(Book);
 
-				//Save Data from Queue to Database.
+				var BookFromDb = await _db.Book.FindAsync(Book.Id);
+
+				BookFromDb.Name = Book.Name;
+				BookFromDb.Author = Book.Author;
+				BookFromDb.ISBN = Book.ISBN;
+
 				await _db.SaveChangesAsync();
 
-				//Redirect back to Index page.
 				return RedirectToPage("Index");
 			}
 			else
 			{
 				return Page();
 			}
+
 
 		}
 	}

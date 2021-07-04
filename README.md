@@ -6,6 +6,7 @@
   <li>Microsoft.EntityFrameworkCore</li>
   <li>Microsoft.EntityFrameworkCore.SqlServer</li>
   <li>Microsoft.EntityFrameworkCore.Tools</li>
+  <li>Docker</li>
   </ul>
 
 
