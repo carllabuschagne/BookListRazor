@@ -26,11 +26,15 @@ namespace BookListRazor
 		public void ConfigureServices(IServiceCollection services)
 		{
 			//Added to pipeline
+			//Add DB to DB context
 			services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			
+			//Enable Razor pages
 			services.AddRazorPages();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		// Middleware
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -38,13 +42,15 @@ namespace BookListRazor
 				app.UseDeveloperExceptionPage();
 			}
 			else
-			{
+			{				
 				app.UseExceptionHandler("/Error");
+				
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
 
 			app.UseHttpsRedirection();
+
 			app.UseStaticFiles();
 
 			app.UseRouting();
